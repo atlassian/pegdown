@@ -26,6 +26,7 @@ import org.parboiled.common.ArrayBuilder;
 import org.parboiled.common.ImmutableList;
 import org.parboiled.parserunners.ParseRunner;
 import org.parboiled.parserunners.ReportingParseRunner;
+import org.parboiled.support.MatcherPath;
 import org.parboiled.support.ParsingResult;
 import org.parboiled.support.StringBuilderVar;
 import org.parboiled.support.StringVar;
@@ -995,7 +996,9 @@ public class Parser extends BaseParser<Object> implements Extensions {
 
     public Rule Label() {
         return Sequence(
+                checkNoDeeplyNestedLabels(),
                 '[',
+                checkForParsingTimeout(),
                 push(new SuperNode()),
                 OneOrMore(TestNot(']'), NonAutoLinkInline(), addAsChild()),
                 ']'
@@ -1514,6 +1517,19 @@ public class Parser extends BaseParser<Object> implements Extensions {
     ParsingResult<Node> parseToParsingResult(char[] source) {
         parsingStartTimeStamp = System.currentTimeMillis();
         return parseRunnerProvider.get(Root()).run(source);
+    }
+
+    protected boolean checkNoDeeplyNestedLabels() {
+        int labels = 0;
+        MatcherPath path = getContext().getPath();
+        while (path != null) {
+            if (path.element.matcher.getLabel().equals("Label")) {
+                ++labels;
+            }
+            path = path.parent;
+        }
+        // allow up to 3 levels of labels
+        return labels < 4;
     }
 
     protected boolean checkForParsingTimeout() {

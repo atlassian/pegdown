@@ -1,6 +1,6 @@
 name := "pegdown"
 
-version := "1.4.2"
+version := "1.4.2-atlassian-2-SNAPSHOT"
 
 homepage := Some(new URL("http://pegdown.org"))
 
@@ -42,6 +42,8 @@ resolvers += Opts.resolver.sonatypeReleases
 
 // publishing
 
+credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+
 crossPaths := false
 
 autoScalaLibrary := false
@@ -57,15 +59,15 @@ useGpg := true
 pgpSigningKey := Some(-2321133875171851978L)
 
 publishTo <<= version { v: String =>
-  val nexus = "https://oss.sonatype.org/"
-  if (v.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "content/repositories/snapshots")
-  else                             Some("releases" at nexus + "service/local/staging/deploy/maven2")
+  val nexus = "https://maven.atlassian.com"
+  if (v.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "/3rdparty-snapshot")
+  else                             Some("releases" at nexus + "/3rdparty")
 }
 
 pomExtra :=
   <scm>
-    <url>git@github.com:sirthias/pegdown.git</url>
-    <connection>scm:git:git@github.com:sirthias/pegdown.git</connection>
+    <url>git@github.com:atlassian/pegdown.git</url>
+    <connection>scm:git:git@github.com:atlassian/pegdown.git</connection>
   </scm>
   <developers>
     <developer>
