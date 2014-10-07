@@ -1,6 +1,6 @@
 name := "pegdown"
 
-version := "1.4.2-atlassian-1"
+version := "1.4.2-atlassian-2-SNAPSHOT"
 
 homepage := Some(new URL("http://pegdown.org"))
 
@@ -42,6 +42,8 @@ resolvers += Opts.resolver.sonatypeReleases
 
 // publishing
 
+credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
+
 crossPaths := false
 
 autoScalaLibrary := false
@@ -58,8 +60,8 @@ pgpSigningKey := Some(-2321133875171851978L)
 
 publishTo <<= version { v: String =>
   val nexus = "https://maven.atlassian.com"
-  if (v.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "/public-snapshot")
-  else                             Some("releases" at nexus + "/public")
+  if (v.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "/3rdparty-snapshot")
+  else                             Some("releases" at nexus + "/3rdparty")
 }
 
 pomExtra :=
