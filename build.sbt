@@ -1,6 +1,6 @@
 name := "pegdown"
 
-version := "1.4.2"
+version := "1.4.2-atlassian-1"
 
 homepage := Some(new URL("http://pegdown.org"))
 
@@ -57,15 +57,15 @@ useGpg := true
 pgpSigningKey := Some(-2321133875171851978L)
 
 publishTo <<= version { v: String =>
-  val nexus = "https://oss.sonatype.org/"
-  if (v.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "content/repositories/snapshots")
-  else                             Some("releases" at nexus + "service/local/staging/deploy/maven2")
+  val nexus = "https://maven.atlassian.com"
+  if (v.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "/public-snapshot")
+  else                             Some("releases" at nexus + "/public")
 }
 
 pomExtra :=
   <scm>
-    <url>git@github.com:sirthias/pegdown.git</url>
-    <connection>scm:git:git@github.com:sirthias/pegdown.git</connection>
+    <url>git@github.com:atlassian/pegdown.git</url>
+    <connection>scm:git:git@github.com:atlassian/pegdown.git</connection>
   </scm>
   <developers>
     <developer>
