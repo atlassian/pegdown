@@ -264,7 +264,6 @@ public class ToHtmlSerializer implements Visitor {
         printIndentedTag(node, "tbody");
     }
 
-    @Override
     public void visit(TableCaptionNode node) {
         printer.println().print("<caption>");
         visitChildren(node);

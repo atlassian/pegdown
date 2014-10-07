@@ -29,12 +29,18 @@ class PathologicalInputSpec extends AbstractPegDownSpec {
     }
 
     "properly parse pathological input example 3" in {
-      new PegDownProcessor(200l).markdownToHtml {
+      new PegDownProcessor(2000l).markdownToHtml {
         "how about a new method thats getObjectIdOrAdjustmentGroup? That w[a[[[[[[[[[[[[[[[[[y we're more explicit" +
           " and still benefit callers from having to do the iff dance"
-      } must throwA[org.parboiled.errors.ParserRuntimeException]
+      } mustEqual "<p>how about a new method thats getObjectIdOrAdjustmentGroup? That w[a[[[[[[[[[[[[[[[[[y we're more explicit" +
+        " and still benefit callers from having to do the iff dance</p>"
     }
 
+    "properly parse pathological input example 4" in {
+      new PegDownProcessor(2000l).markdownToHtml {
+        "[Just a [URL](/url/) preceded by an unbalanced bracket."
+      } mustEqual "<p>[Just a <a href=\"/url/\">URL</a> preceded by an unbalanced bracket.</p>"
+    }
   }
 
 }
